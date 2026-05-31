@@ -25,7 +25,6 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: com.winddown.app
       MARKETING_VERSION: "1.0.0"
       CURRENT_PROJECT_VERSION: "1"
-      CODE_SIGN_ENTITLEMENTS: WindDown/Resources/WindDown.entitlements
       ASSETCATALOG_COMPILER_INCLUDE_APP_ICON: "NO"
     dependencies: []
     scheme:
