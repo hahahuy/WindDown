@@ -31,7 +31,9 @@ jobs:
             -derivedDataPath DerivedData \
             build \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="" 2>&1
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            ARCHS="x86_64 arm64" 2>&1
 
       - name: Locate .app bundle
         id: locate_app

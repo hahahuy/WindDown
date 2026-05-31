@@ -1,5 +1,8 @@
 import SwiftUI
+
+#if !targetEnvironment(simulator)
 import FamilyControls
+#endif
 
 struct ScreenTimeView: View {
     @Environment(AppState.self) private var appState
@@ -11,9 +14,15 @@ struct ScreenTimeView: View {
                 Section {
                     Text("Screen Time permission is required to block distracting apps after bedtime.")
                         .foregroundStyle(.secondary)
+#if !targetEnvironment(simulator)
                     Button("Grant Permission") {
                         Task { await viewModel?.requestAuth() }
                     }
+#else
+                    Text("Not available in simulator.")
+                        .foregroundStyle(.secondary)
+                        .font(.caption)
+#endif
                 }
             } else {
                 Section("App Blocking") {
@@ -24,14 +33,16 @@ struct ScreenTimeView: View {
                             else { viewModel?.removeShield() }
                         }
                     ))
-
+#if !targetEnvironment(simulator)
                     Button("Choose apps to block") {
                         viewModel?.showActivityPicker = true
                     }
+#endif
                 }
             }
         }
         .navigationTitle("Screen Time")
+#if !targetEnvironment(simulator)
         .familyActivityPicker(
             isPresented: Binding(
                 get: { viewModel?.showActivityPicker ?? false },
@@ -42,6 +53,7 @@ struct ScreenTimeView: View {
                 set: { viewModel?.activitySelection = $0 }
             )
         )
+#endif
         .onAppear {
             if viewModel == nil { viewModel = ScreenTimeViewModel(appState: appState) }
         }

@@ -1,13 +1,20 @@
 import Foundation
 import Observation
+
+#if !targetEnvironment(simulator)
 import FamilyControls
+import ManagedSettings
+#endif
 
 @Observable
 final class ScreenTimeViewModel {
     var appState: AppState
     var manager: ScreenTimeManager
-    var activitySelection = FamilyActivitySelection()
     var showActivityPicker = false
+
+#if !targetEnvironment(simulator)
+    var activitySelection = FamilyActivitySelection()
+#endif
 
     init(appState: AppState, manager: ScreenTimeManager = ScreenTimeManager()) {
         self.appState = appState
@@ -19,7 +26,9 @@ final class ScreenTimeViewModel {
     }
 
     func applyShield() {
+#if !targetEnvironment(simulator)
         manager.applyShield(selection: activitySelection)
+#endif
     }
 
     func removeShield() {
