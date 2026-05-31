@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UserNotifications
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
@@ -47,6 +48,13 @@ struct SettingsView: View {
                             }
                         }
                     }
+                }
+
+                Section("AI Insights") {
+                    SecureField("OpenRouter API Key", text: Binding(
+                        get: { UserDefaults.standard.string(forKey: "openRouterApiKey") ?? "" },
+                        set: { UserDefaults.standard.set($0, forKey: "openRouterApiKey") }
+                    ))
                 }
 
                 Section("Screen Time") {

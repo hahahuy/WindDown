@@ -10,8 +10,12 @@ final class HealthKitService {
     func requestPermission() async -> Bool {
         guard isAvailable else { return false }
         guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else { return false }
-        let result = try? await store.requestAuthorization(toShare: [], read: [sleepType])
-        return result ?? false
+        do {
+            try await store.requestAuthorization(toShare: [], read: [sleepType])
+            return true
+        } catch {
+            return false
+        }
     }
 
     func fetchLastNightSleep() async -> (start: Date, end: Date)? {

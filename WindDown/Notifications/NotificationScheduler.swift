@@ -31,7 +31,7 @@ final class NotificationScheduler {
             content.sound = .default
             content.categoryIdentifier = Self.categoryIdentifier
 
-            let components = Calendar.current.dateComponents([.hour, .minute], from: fireDate)
+            let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fireDate)
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
             let request = UNNotificationRequest(
                 identifier: item.id.uuidString,

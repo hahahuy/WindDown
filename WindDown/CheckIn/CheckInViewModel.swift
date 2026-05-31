@@ -9,8 +9,9 @@ final class CheckInViewModel {
     var insightError: String?
     private let openRouter: OpenRouterService
 
-    init(appState: AppState, apiKey: String = "") {
+    init(appState: AppState) {
         self.appState = appState
+        let apiKey = UserDefaults.standard.string(forKey: "openRouterApiKey") ?? ""
         self.openRouter = OpenRouterService(apiKey: apiKey)
     }
 
