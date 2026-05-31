@@ -50,20 +50,14 @@ jobs:
         id: appetize
         env:
           APPETIZE_API_TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
-          APPETIZE_APP_KEY: ${{ secrets.APPETIZE_APP_KEY }}
         run: |
-          echo "App key length: ${#APPETIZE_APP_KEY}"
           RESPONSE=$(curl -s -X POST \
-            "https://api.appetize.io/v1/apps/$APPETIZE_APP_KEY" \
+            "https://api.appetize.io/v1/apps/wsto7vecvvzewjv6dwdga5h3zu" \
             -u "$APPETIZE_API_TOKEN:" \
             -F "file=@$ZIP_PATH" \
             -F "platform=ios")
           echo "Appetize response: $RESPONSE"
-          PUBLIC_KEY=$(echo "$RESPONSE" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('publicKey', d.get('appKey', '')))")
           PUBLIC_URL=$(echo "$RESPONSE" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('publicURL', ''))")
-          echo "APP_KEY=$PUBLIC_KEY" >> $GITHUB_OUTPUT
-          echo "PUBLIC_URL=$PUBLIC_URL" >> $GITHUB_OUTPUT
-          echo "Appetize app key: $PUBLIC_KEY"
           echo "Live URL: $PUBLIC_URL"
 
       - name: Upload .app.zip as artifact
